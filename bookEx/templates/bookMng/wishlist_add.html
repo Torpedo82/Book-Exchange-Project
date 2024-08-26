@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block sidenav %}
+    {% for item in item_list %}
+        <li>
+            <a href="{{ item.link}}">
+                <button type="button" class="btn btn-secondary btn-outline-light">{{ item.item }}</button>
+            </a>
+
+        </li>
+    {% endfor %}
+{% endblock sidenav %}
+
+
+{% block content %}
+   <h1 align="center">Add to Wishlist?</h1>
+
+{% if submitted %}
+  <h1> Added to Wishlist</h1>
+
+{% else %}
+
+  <form action=""  method="post" >
+      <div align="center"><img src="{% static book.pic_path %}" width="150" height="150" > <p>{{ book.name }}</p> </div>
+      <div align="center"><button type="submit" class="btn btn-light">Confirm</button></div>
+      {% csrf_token %}
+  </form>
+
+{% endif %}
+{% endblock content%}

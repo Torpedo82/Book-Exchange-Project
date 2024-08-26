@@ -1,0 +1,67 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous">
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block sidenav %}
+    {% for item in item_list %}
+        <div align="center">
+            <li>
+                <a href="{{ item.link}}" align="center">
+                    <button type="button" class="btn btn-secondary btn-outline-light">{{ item.item }}</button>
+                </a>
+            </li>
+        </div>
+    {% endfor %}
+{% endblock sidenav %}
+
+{% block content %}
+<br><br>
+<div align="center">
+    <h3 class="p-3"> {{current_user}}'s Inbox</h3>
+    <br><br>
+    <a href="inbox_add" class="btn  btn-sm btn-primary" role="button">New Message</a>
+</div>
+<br><br>
+
+<table align="center" width="600" class="table-striped table-bordered table-dark">
+    <tr>
+        <th>Chat Recipient</th><th>Last Message</th><th>   </th>
+    </tr>
+    {% for m in latestMessage %}
+        <tr>
+            <td>
+                {% if m.reciever != current_user %}
+                    {{m.reciever}}
+                {% elif m.sender != current_user %}
+                    {{m.sender}}
+                {% else %}
+                    {{current_user}}
+                {% endif %}
+            </td>
+            <td>
+                {% if m.reciever != current_user %}
+                    <a href="message_display/{{m.reciever}}" class="btn btn-sm btn-primary m-2" role="button">
+                        {{m.sender}}: {{m.message}}</a>
+                {% else %}
+                    <a href="message_display/{{m.sender}}" class="btn btn-sm btn-primary m-2" role="button">
+                        {{m.sender}}: {{m.message}}</a>
+                {% endif %}
+            </td>
+            <td>
+                {% if m.reciever != current_user %}
+                    <a href="/delete_message/{{m.reciever}}" class="btn btn-sm btn-primary m-2" role="button">
+                        Delete Message Chain</a>
+                {% else %}
+                    <a href="/delete_message/{{m.sender}}" class="btn btn-sm btn-primary m-2" role="button">
+                        Delete Message Chain</a>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+
+{% endblock content%}

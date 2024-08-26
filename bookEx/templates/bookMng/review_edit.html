@@ -1,0 +1,47 @@
+
+
+
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block sidenav %}
+    {% for item in item_list %}
+        <li>
+            <a href="{{ item.link}}"> {{ item.item }}</a>
+        </li>
+    {% endfor %}
+{% endblock sidenav %}
+
+
+{% block content %}
+   <h1 align="center"> Edit Review  </h1><br>
+
+
+{% if submitted %}
+  <h2> Review Posted Successfully</h2>
+
+{% else %}
+<div align="left">
+<h1> Current Review: </h1>
+ <p> Rating: {{ review.rating }} ·  {{ review.date }} · Posted by: {{ review.username }}</p>
+            <h3>{{ review.review_headline }}</h3>
+            <p>{{ review.review_book }}</p>
+<br><br>
+</div>
+  <form action=""  method="post" >
+      <table>
+          {{ form.as_table }}
+          <tr>
+              <td colspan="2">
+                 <p> Note: Rate from 1 - 5 <br> 1 - the worst <br> 5 - the best</p>
+                  <br>
+                  <input type="submit" value="Submit">
+              </td>
+          </tr>
+      </table>
+      {% csrf_token %}
+  </form>
+<br>
+{% endif %}
+{% endblock content%}
